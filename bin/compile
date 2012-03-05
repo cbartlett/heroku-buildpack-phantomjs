@@ -14,8 +14,15 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 
 # s3 packages
-BUILDPACK_PHANTOMJS_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/buildpack-phantomjs-${VERSION}.tar.gz"
+FILE_NAME="buildpack-phantomjs-${VERSION}.tar.gz"
+BUILDPACK_PHANTOMJS_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/${FILE_NAME}"
 
-echo "-----> Fetching phantomJS buildpack binaries"
-curl $BUILDPACK_PHANTOMJS_PACKAGE -s -o - | tar zxf - -C $BUILD_DIR
+if ![ -d $CACHE_DIR/$FILE_NAME ]; then
+  echo "-----> Fetching PhantomJS buildpack binaries"
+  mkdir -p $CACHE_DIR
+  curl $BUILDPACK_PHANTOMJS_PACKAGE -s -o $CACHE_DIR/$FILE_NAME
+fi
+
+echo "Extracting PhantomJS binaries" | indent
+tar zxf $CACHE_DIR/$FILE_NAME -C $BUILD_DIR
 
