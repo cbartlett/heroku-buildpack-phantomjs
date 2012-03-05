@@ -1,28 +1,24 @@
 #!/bin/sh
 
-indent() {
-  sed -u 's/^/       /'
-}
-
 set -e
+
+BUILD_DIR=$1
+CACHE_DIR=$2
 
 # config
 VERSION="1.0.0"
 S3_BUCKET="stomita-buildpack-phantomjs"
 
-BUILD_DIR=$1
-CACHE_DIR=$2
-
 # s3 packages
 FILE_NAME="buildpack-phantomjs-${VERSION}.tar.gz"
 BUILDPACK_PHANTOMJS_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/${FILE_NAME}"
 
-if ![ -d $CACHE_DIR/$FILE_NAME ]; then
+mkdir -p $CACHE_DIR
+if ! [ -e $CACHE_DIR/$FILE_NAME ]; then
   echo "-----> Fetching PhantomJS buildpack binaries"
-  mkdir -p $CACHE_DIR
   curl $BUILDPACK_PHANTOMJS_PACKAGE -s -o $CACHE_DIR/$FILE_NAME
 fi
 
-echo "Extracting PhantomJS binaries" | indent
+echo "-----> Extracting PhantomJS binaries" 
 tar zxf $CACHE_DIR/$FILE_NAME -C $BUILD_DIR
 
