@@ -4,13 +4,18 @@ indent() {
   sed -u 's/^/       /'
 }
 
-echo "-----> Found a hello.txt"
+set -e
 
-# if hello.txt is empty, abort the build
-if [ ! -s $1/hello.txt ]; then
-  echo "hello.txt was empty" | indent
-  exit 1
-fi
+# config
+VERSION="1.0.0"
+S3_BUCKET="stomita-buildpack-phantomjs"
 
-# replace hello with goodbye in a new file
-cat $1/hello.txt | sed -e "s/[Hh]ello/Goodbye/g" > $1/goodbye.txt
+BUILD_DIR=$1
+CACHE_DIR=$2
+
+# s3 packages
+BUILDPACK_PHANTOMJS_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/buildpack-phantomjs-${VERSION}.tar.gz"
+
+echo "-----> Fetching phantomJS buildpack binaries"
+curl $BUILDPACK_PHANTOMJS_PACKAGE -s -o - | tar zxf - -C $BUILD_DIR
+
