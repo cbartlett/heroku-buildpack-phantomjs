@@ -4,7 +4,7 @@ cat << EOF
 ---
 config_vars:
   PATH: /usr/local/bin:/usr/bin:/bin:/app/bin
-  DISPLAY: :1
+  DISPLAY: ":1"
 default_process_types:
   console: bin/fakesu
 EOF
