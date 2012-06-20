@@ -8,8 +8,8 @@ Usage
 
 Example usage:
 
-    $ heroku create --stack cedar --buildpack http://github.com/stomita/heroku-buildpack-phantomjs.git
-
-    $ git push heroku master
-
-
+```shell
+$ heroku create --stack cedar --buildpack http://github.com/rymai/heroku-buildpack-phantomjs.git
+# or if your app is already created:
+$ heroku config:add BUILDPACK_URL=http://github.com/rymai/heroku-buildpack-phantomjs.git
+```
