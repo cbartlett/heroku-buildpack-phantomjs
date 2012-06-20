@@ -7,13 +7,16 @@ CACHE_DIR=$2
 
 # config
 VERSION="1.5.0"
-FILENAME="phantomjs-${VERSION}-linux-x86_64-dynamic.tar.gz"
-PHANTOMJS_PACKAGE="https://phantomjs.googlecode.com/files/${FILENAME}"
+S3_BUCKET="stomita-buildpack-phantomjs"
+
+# s3 packages
+FILE_NAME="buildpack-phantomjs-${VERSION}.tar.gz"
+BUILDPACK_PHANTOMJS_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/${FILE_NAME}"
 
 mkdir -p $CACHE_DIR
 if ! [ -e $CACHE_DIR/$FILE_NAME ]; then
-  echo "-----> Fetching PhantomJS ${VERSION} binaries at ${PHANTOMJS_PACKAGE}"
-  curl $PHANTOMJS_PACKAGE -s -o $CACHE_DIR/$FILE_NAME
+  echo "-----> Fetching PhantomJS ${VERSION} binaries at ${BUILDPACK_PHANTOMJS_PACKAGE}"
+  curl $BUILDPACK_PHANTOMJS_PACKAGE -s -o $CACHE_DIR/$FILE_NAME
 fi
 
 echo "-----> Extracting PhantomJS ${VERSION} binaries to ${BUILD_DIR}/vendor/phantomjs"
