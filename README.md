@@ -12,7 +12,7 @@ Example usage:
 $ heroku create --stack cedar --buildpack https://github.com/stomita/heroku-buildpack-phantomjs.git
 
 # or if your app is already created:
-$ heroku config:add BUILDPACK_URL=https://github.com/stomita/heroku-buildpack-phantomjs.git
+$ heroku buildpacks:add https://github.com/stomita/heroku-buildpack-phantomjs
 
 $ git push heroku master
 ```
